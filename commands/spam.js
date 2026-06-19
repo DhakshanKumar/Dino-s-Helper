@@ -1,18 +1,26 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 
 const command = {
   data: new SlashCommandBuilder()
     .setName("spam")
-    .setDescription("Spam mention a user (owner only)")
+    .setDescription("Spam messages (owner only tool)")
     .addUserOption(option =>
-      option.setName("user")
-        .setDescription("User to tag")
-        .setRequired(true)
+      option
+        .setName("user")
+        .setDescription("User to mention (optional)")
+        .setRequired(false)
+    )
+    .addStringOption(option =>
+      option
+        .setName("message")
+        .setDescription("Custom message (optional)")
+        .setRequired(false)
     )
     .addIntegerOption(option =>
-      option.setName("count")
-        .setDescription("Number of times to send")
-        .setRequired(true)
+      option
+        .setName("count")
+        .setDescription("How many times to send (optional, default 1)")
+        .setRequired(false)
     ),
 
   async execute(interaction) {
@@ -21,28 +29,41 @@ const command = {
 
     if (!ownerIds.includes(interaction.user.id)) {
       return interaction.reply({
-        content: "❌ Only @Dinoplayz\_Official can use this command.",
-        ephemeral: true,
+        content: "❌ Only bot owners can use this command.",
+        flags: 64,
       });
     }
 
     const user = interaction.options.getUser("user");
-    const count = interaction.options.getInteger("count");
+    const message = interaction.options.getString("message");
+    const count = interaction.options.getInteger("count") ?? 1;
 
     if (count > 10) {
       return interaction.reply({
         content: "Limit is 10 to avoid rate limits.",
-        ephemeral: true,
+        flags: 64,
       });
     }
 
     await interaction.reply({
-      content: `Spamming ${user} ${count} times...`,
-      ephemeral: true,
+      content: "Sending messages...",
+      flags: 64,
     });
 
     for (let i = 0; i < count; i++) {
-      await interaction.channel.send(`${user}`);
+      let output = "";
+
+      if (user && message) {
+        output = `${user} ${message}`;
+      } else if (user) {
+        output = `${user}`;
+      } else if (message) {
+        output = message;
+      } else {
+        output = "No content provided";
+      }
+
+      await interaction.channel.send(output);
     }
   },
 };
