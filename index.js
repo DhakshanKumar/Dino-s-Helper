@@ -23,6 +23,16 @@ client.activeConnections = new Map();
 client.once('clientReady', async () => {
     console.log(`Logged in as ${client.user.tag}`);
 
+    client.user.setPresence({
+        status: 'idle',
+        activities: [
+            {
+                name: 'Dino’s Lair 🦖',
+                type: 0
+            }
+        ]
+    });
+
     const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
     await rest.put(
