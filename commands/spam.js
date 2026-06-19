@@ -1,18 +1,16 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
-module.exports = {
+const command = {
   data: new SlashCommandBuilder()
     .setName("spam")
     .setDescription("Spam mention a user (use responsibly)")
     .addUserOption(option =>
-      option
-        .setName("user")
+      option.setName("user")
         .setDescription("User to tag")
         .setRequired(true)
     )
     .addIntegerOption(option =>
-      option
-        .setName("count")
+      option.setName("count")
         .setDescription("Number of times to send")
         .setRequired(true)
     )
@@ -24,7 +22,7 @@ module.exports = {
 
     if (count > 10) {
       return interaction.reply({
-        content: "Limit is 10 to avoid Discord rate limits.",
+        content: "Limit is 10 to avoid rate limits.",
         ephemeral: true,
       });
     }
@@ -39,3 +37,5 @@ module.exports = {
     }
   },
 };
+
+export default command;
