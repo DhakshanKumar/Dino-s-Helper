@@ -17,8 +17,6 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/voice": "^0.19.2",
-    "@google/genai": "^2.9.0",
-    "@google/generative-ai": "^0.24.1",
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",
     "groq-sdk": "^1.2.1"
