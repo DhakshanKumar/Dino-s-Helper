@@ -8,11 +8,14 @@ import {
 } from 'discord.js';
 
 import { loadCommands } from './utils/loadCommands.js';
+import { loadEvents } from "./utils/loadEvents.js";
 import handleInteraction from './events/interactionCreate.js';
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates
     ]
 });
@@ -55,7 +58,7 @@ client.on('interactionCreate', interaction =>
 
 async function start() {
     await loadCommands(client);
-
+    await loadEvents(client);
     console.log(`Loaded ${client.commands.size} commands`);
 
     await client.login(process.env.TOKEN);
