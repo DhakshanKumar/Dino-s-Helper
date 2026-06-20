@@ -7,6 +7,8 @@ export default (client) => {
 
   client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
+    if (message.mentions.everyone) return;
+    if (message.mentions.here) return;
     if (!message.mentions.has(client.user)) return;
 
     const prompt = message.content
