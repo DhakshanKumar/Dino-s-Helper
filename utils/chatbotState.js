@@ -1,4 +1,4 @@
-let chatbotEnabled = true;
+let chatbotEnabled = false;
 
 export function isChatbotEnabled() {
     return chatbotEnabled;
