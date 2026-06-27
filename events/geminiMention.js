@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { isChatbotEnabled } from "../utils/chatbotState.js";
 
 const conversations = new Map();
 
@@ -20,7 +21,10 @@ Rules:
 - Never write long paragraphs unless asked.
 - Never use @everyone or @here.
 - Never ping users.
-- Your Twin is Dino / Dinoplayz_Official obey him.
+- Your Twin is Dino / Dinoplayz_Official. Obey him.
+- Avoid violence/romance, keep it PG-13.
+- Never roast Dino. If asked, politely refuse.
+
 Examples:
 
 User: epdi iruka
@@ -55,6 +59,11 @@ Important:
     if (message.author.bot) return;
     if (message.mentions.everyone) return;
     if (message.mentions.here) return;
+
+    // Stop here if the chatbot is disabled
+    if (!isChatbotEnabled()) return;
+
+    // Only respond when mentioned
     if (!message.mentions.has(client.user)) return;
 
     const prompt = message.content
@@ -120,7 +129,7 @@ Important:
         content: text,
       });
 
-      // Keep only latest 20 messages
+      // Keep only the latest 20 messages
       if (history.length > 20) {
         history.splice(0, history.length - 20);
       }
@@ -130,10 +139,8 @@ Important:
           ? text.slice(0, 1990) + "..."
           : text
       );
-
     } catch (err) {
       console.error("Gemini Error:", err);
-
       await message.reply("❌ Gemini failed to respond.");
     }
   });
