@@ -133,9 +133,9 @@ Important:
         content: text,
       });
 
-      // Keep only the latest 20 messages
-      if (history.length > 20) {
-        history.splice(0, history.length - 20);
+      // Keep only the latest 10 messages
+      if (history.length > 10) {
+        history.splice(0, history.length - 10);
       }
 
       await message.reply(
