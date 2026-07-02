@@ -38,9 +38,9 @@ const command = {
     const message = interaction.options.getString("message");
     const count = interaction.options.getInteger("count") ?? 1;
 
-    if (count > 10) {
+    if (count > 100) {
       return interaction.reply({
-        content: "Limit is 10 to avoid rate limits.",
+        content: "Limit is 100 to avoid rate limits.",
         flags: 64,
       });
     }
